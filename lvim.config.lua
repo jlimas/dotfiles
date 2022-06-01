@@ -19,17 +19,25 @@ lvim.builtin.which_key.mappings["r"] = {
   j = { ":!node %<cr>", "JavaScript Code" },
   p = { ":!python3 %<cr>", "Python Code" },
   n = { ":!npm i<cr>", "NPM Clean Install" },
-  x = {
-    name = "+Example",
-    l = { ":!lua %<cr>", "Lua Code" },
+}
+
+lvim.builtin.which_key.mappings["0"] = {
+  name = "+Configurations",
+  e = {
+    name = "+Environment Variables",
+    l = {
+      name = "+Logger",
+      u = { ":let $LOGGER_ENABLED='true'<cr>", "Enable Logging" },
+      d = { ":let $LOGGER_ENABLED='false'<cr>", "Disable Logging" },
+    }
   }
 }
 
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Tests",
-  n = { ":TestNearest<cr>", "Test Nearest"},
-  f = { ":TestFile<cr>", "Test File"},
-  l = { ":TestLast<cr>", "Last Test"}
+  n = { ":TestNearest<cr>", "Test Nearest" },
+  f = { ":TestFile<cr>", "Test File" },
+  l = { ":TestLast<cr>", "Last Test" }
 }
 
 lvim.builtin.which_key.mappings["g"] = {
@@ -60,7 +68,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue" }}
+lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue" } }
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -98,13 +106,13 @@ linters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-  {"sainnhe/sonokai"},
-  {"easymotion/vim-easymotion"},
-  {"vim-test/vim-test"},
-  {"voldikss/vim-floaterm"},
-  {"preservim/vimux"},
-  {"kamykn/spelunker.vim"},
-  {"ruanyl/coverage.vim"},
+  { "sainnhe/sonokai" },
+  { "easymotion/vim-easymotion" },
+  { "vim-test/vim-test" },
+  { "voldikss/vim-floaterm" },
+  { "preservim/vimux" },
+  { "kamykn/spelunker.vim" },
+  { "ruanyl/coverage.vim" },
   {
     "tpope/vim-fugitive",
     cmd = {
@@ -122,7 +130,7 @@ lvim.plugins = {
       "Glgrep",
       "Gedit"
     },
-    ft = {"fugitive"}
+    ft = { "fugitive" }
   },
   {
     "mattn/vim-gist",
