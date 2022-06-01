@@ -19,6 +19,7 @@ lvim.builtin.which_key.mappings["r"] = {
   j = { ":!node %<cr>", "JavaScript Code" },
   p = { ":!python3 %<cr>", "Python Code" },
   n = { ":!npm i<cr>", "NPM Clean Install" },
+  c = { ":FloatermNew --height=0.9 --width=0.8 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
 }
 
 lvim.builtin.which_key.mappings["0"] = {
