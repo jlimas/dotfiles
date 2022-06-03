@@ -31,6 +31,19 @@ lvim.builtin.which_key.mappings["0"] = {
       u = { ":let $LOGGER_ENABLED='true'<cr>", "Enable Logging" },
       d = { ":let $LOGGER_ENABLED='false'<cr>", "Disable Logging" },
     }
+  },
+  d = {
+    name = "+Python Django",
+    m = {
+      name = "+Migrations",
+      a = { ":!python manage.py makemigrations<cr>", "Make Migrations" },
+      b = { ":!python manage.py migrate<cr>", "Migrate" },
+    }
+  },
+  s = {
+    name = "+Spelling",
+    u = {":let g:enable_spelunker_vim = 1<cr>", "Enable Spelling"},
+    d = {":let g:enable_spelunker_vim = 0<cr>", "Disable Spelling"},
   }
 }
 
@@ -43,7 +56,8 @@ lvim.builtin.which_key.mappings["t"] = {
 
 lvim.builtin.which_key.mappings["g"] = {
   name = "+Git",
-  g = { ":G<cr>", "Open" },
+  o = { ":G<cr>", "Open" },
+  p = { ":G push<cr>", "Push" },
 }
 
 -- TODO: User Config for predefined plugins
@@ -69,7 +83,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue" } }
+lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue", "python" } }
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -157,6 +171,8 @@ vim.cmd([[
 
     let test#strategy = "floaterm"
     let test#javascript#jest#options = '--silent --verbose'
+
+    let g:enable_spelunker_vim = 0
 ]])
 
 vim.opt.clipboard = "unnamedplus"
