@@ -19,7 +19,7 @@ lvim.builtin.which_key.mappings["r"] = {
   j = { ":!node %<cr>", "JavaScript Code" },
   p = { ":!python3 %<cr>", "Python Code" },
   n = { ":!npm i<cr>", "NPM Clean Install" },
-  c = { ":FloatermNew --height=0.9 --width=0.8 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
+  c = { ":FloatermNew --height=0.6 --width=0.5 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
 }
 
 lvim.builtin.which_key.mappings["0"] = {
@@ -30,14 +30,6 @@ lvim.builtin.which_key.mappings["0"] = {
       name = "+Logger",
       u = { ":let $LOGGER_ENABLED='true'<cr>", "Enable Logging" },
       d = { ":let $LOGGER_ENABLED='false'<cr>", "Disable Logging" },
-    }
-  },
-  d = {
-    name = "+Python Django",
-    m = {
-      name = "+Migrations",
-      a = { ":!python manage.py makemigrations<cr>", "Make Migrations" },
-      b = { ":!python manage.py migrate<cr>", "Migrate" },
     }
   },
   s = {
@@ -59,6 +51,8 @@ lvim.builtin.which_key.mappings["g"] = {
   o = { ":G<cr>", "Open" },
   p = { ":G push<cr>", "Push" },
 }
+
+lvim.builtin.which_key.mappings["z"] = {":ZenMode<cr>", "Zen Mode"}
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -85,18 +79,20 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue", "python" } }
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "black", filetypes = { "python" } },
-  -- { command = "isort", filetypes = { "python" } },
   {
-    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "black",
+    filetypes = { "python" }
+  },
+  {
+    command = "isort",
+    extra_args = { "--profile", "black"},
+    filetypes = { "python" }
+  },
+  {
     command = "prettier",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-    -- extra_args = { "--print-with", "100" },
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "typescript", "typescriptreact", "javascript", "vue" },
   },
 }
@@ -152,12 +148,21 @@ lvim.plugins = {
     event = "BufRead",
     requires = "mattn/webapi-vim",
   },
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
   { "BufWinEnter", "*.ts", "setlocal ts=4 sw=4" },
-  { "BufWinEnter", "*.ts", "let b:dispatch = 'jest % --silent --verbose'" },
 }
 
 -- Confioguration for Sonokai Theme
