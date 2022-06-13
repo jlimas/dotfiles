@@ -19,7 +19,7 @@ lvim.builtin.which_key.mappings["r"] = {
   j = { ":!node %<cr>", "JavaScript Code" },
   p = { ":!python3 %<cr>", "Python Code" },
   n = { ":!npm i<cr>", "NPM Clean Install" },
-  c = { ":FloatermNew --height=0.9 --width=0.8 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
+  c = { ":FloatermNew --height=0.6 --width=0.5 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
 }
 
 lvim.builtin.which_key.mappings["0"] = {
@@ -31,6 +31,11 @@ lvim.builtin.which_key.mappings["0"] = {
       u = { ":let $LOGGER_ENABLED='true'<cr>", "Enable Logging" },
       d = { ":let $LOGGER_ENABLED='false'<cr>", "Disable Logging" },
     }
+  },
+  s = {
+    name = "+Spelling",
+    u = { ":let g:enable_spelunker_vim = 1<cr>", "Enable Spelling" },
+    d = { ":let g:enable_spelunker_vim = 0<cr>", "Disable Spelling" },
   }
 }
 
@@ -43,8 +48,11 @@ lvim.builtin.which_key.mappings["t"] = {
 
 lvim.builtin.which_key.mappings["g"] = {
   name = "+Git",
-  g = { ":G<cr>", "Open" },
+  o = { ":G<cr>", "Open" },
+  p = { ":G push<cr>", "Push" },
 }
+
+lvim.builtin.which_key.mappings["z"] = { ":ZenMode<cr>", "Zen Mode" }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -69,21 +77,23 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue" } }
+lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue", "python" } }
 
--- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "black", filetypes = { "python" } },
-  -- { command = "isort", filetypes = { "python" } },
   {
-    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "black",
+    filetypes = { "python" }
+  },
+  {
+    command = "isort",
+    extra_args = { "--profile", "black" },
+    filetypes = { "python" }
+  },
+  {
     command = "prettier",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-    -- extra_args = { "--print-with", "100" },
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "typescript", "typescriptreact", "javascript", "vue" },
+    filetypes = { "typescript", "typescriptreact", "javascript", "vue", "htmldjango", "html" },
   },
 }
 
@@ -115,6 +125,7 @@ lvim.plugins = {
   { "kamykn/spelunker.vim" },
   { "ruanyl/coverage.vim" },
   { "vimwiki/vimwiki" },
+  { "mattn/emmet-vim" },
   {
     "tpope/vim-fugitive",
     cmd = {
@@ -139,12 +150,17 @@ lvim.plugins = {
     event = "BufRead",
     requires = "mattn/webapi-vim",
   },
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup {}
+    end
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
   { "BufWinEnter", "*.ts", "setlocal ts=4 sw=4" },
-  { "BufWinEnter", "*.ts", "let b:dispatch = 'jest % --silent --verbose'" },
 }
 
 -- Confioguration for Sonokai Theme
@@ -158,6 +174,9 @@ vim.cmd([[
 
     let test#strategy = "floaterm"
     let test#javascript#jest#options = '--silent --verbose'
+
+    let g:enable_spelunker_vim = 0
+    let g:user_emmet_leader_key='<C-Z>'
 ]])
 
 vim.opt.clipboard = "unnamedplus"
