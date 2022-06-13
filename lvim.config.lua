@@ -114,6 +114,7 @@ lvim.plugins = {
   { "preservim/vimux" },
   { "kamykn/spelunker.vim" },
   { "ruanyl/coverage.vim" },
+  { "vimwiki/vimwiki" },
   {
     "tpope/vim-fugitive",
     cmd = {
