@@ -34,8 +34,8 @@ lvim.builtin.which_key.mappings["0"] = {
   },
   s = {
     name = "+Spelling",
-    u = {":let g:enable_spelunker_vim = 1<cr>", "Enable Spelling"},
-    d = {":let g:enable_spelunker_vim = 0<cr>", "Disable Spelling"},
+    u = { ":let g:enable_spelunker_vim = 1<cr>", "Enable Spelling" },
+    d = { ":let g:enable_spelunker_vim = 0<cr>", "Disable Spelling" },
   }
 }
 
@@ -52,7 +52,7 @@ lvim.builtin.which_key.mappings["g"] = {
   p = { ":G push<cr>", "Push" },
 }
 
-lvim.builtin.which_key.mappings["z"] = {":ZenMode<cr>", "Zen Mode"}
+lvim.builtin.which_key.mappings["z"] = { ":ZenMode<cr>", "Zen Mode" }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -88,12 +88,12 @@ formatters.setup {
   },
   {
     command = "isort",
-    extra_args = { "--profile", "black"},
+    extra_args = { "--profile", "black" },
     filetypes = { "python" }
   },
   {
     command = "prettier",
-    filetypes = { "typescript", "typescriptreact", "javascript", "vue" },
+    filetypes = { "typescript", "typescriptreact", "javascript", "vue", "htmldjango", "html" },
   },
 }
 
@@ -124,6 +124,7 @@ lvim.plugins = {
   { "preservim/vimux" },
   { "kamykn/spelunker.vim" },
   { "ruanyl/coverage.vim" },
+  { "mattn/emmet-vim" },
   {
     "tpope/vim-fugitive",
     cmd = {
@@ -151,11 +152,7 @@ lvim.plugins = {
   {
     "folke/zen-mode.nvim",
     config = function()
-      require("zen-mode").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      require("zen-mode").setup {}
     end
   }
 }
@@ -178,6 +175,7 @@ vim.cmd([[
     let test#javascript#jest#options = '--silent --verbose'
 
     let g:enable_spelunker_vim = 0
+    let g:user_emmet_leader_key='<C-Z>'
 ]])
 
 vim.opt.clipboard = "unnamedplus"
