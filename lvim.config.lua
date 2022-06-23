@@ -1,7 +1,6 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "sonokai"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -11,15 +10,23 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<S-Right>"] = ":vs<cr>"
 lvim.keys.normal_mode["<S-Down>"] = ":sp<cr>"
 
+vim.cmd([[
+  let g:floaterm_title = "Hacking Terminal"
+  let g:floaterm_height = 0.5
+  let g:floaterm_width = 0.5
+  let g:floaterm_autoclose = 0
+  hi FloatermBorder guibg=orange guifg=cyan
+]])
+
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["r"] = {
   name = "+Run/Execute",
-  l = { ":!lua %<cr>", "Lua Code" },
-  j = { ":!node %<cr>", "JavaScript Code" },
-  p = { ":!python3 %<cr>", "Python Code" },
-  n = { ":!npm i<cr>", "NPM Clean Install" },
-  c = { ":FloatermNew --height=0.6 --width=0.5 --wintype=float --title=HackingTerminal<cr>", "Open Terminal" }
+  l = { ":FloatermNew --title=Lua lua %<cr>", "Lua Code" },
+  j = { ":FloatermNew --title=JavaScript node %<cr>", "Javascript Code" },
+  p = { ":FloatermNew --title=Python python3 %<cr>", "Javascript Code" },
+  n = { ":FloatermNew --title=NPM npm i<cr>", "NPM Install" },
+  c = { ":FloatermNew --title=HackingTerminal<cr>", "Open Terminal" }
 }
 
 lvim.builtin.which_key.mappings["0"] = {
@@ -76,7 +83,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.indent = { enable = true, disable = { "javascript", "typescript", "vue", "python" } }
+lvim.builtin.treesitter.indent = { enable = false }
 
 -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -116,7 +123,7 @@ linters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-  { "sainnhe/sonokai" },
+  { 'navarasu/onedark.nvim' },
   { "easymotion/vim-easymotion" },
   { "vim-test/vim-test" },
   { "voldikss/vim-floaterm" },
@@ -125,6 +132,8 @@ lvim.plugins = {
   { "ruanyl/coverage.vim" },
   { "vimwiki/vimwiki" },
   { "mattn/emmet-vim" },
+  { 'leafgarland/typescript-vim' },
+  { 'sheerun/vim-polyglot' },
   {
     "tpope/vim-fugitive",
     cmd = {
@@ -154,22 +163,11 @@ lvim.plugins = {
     config = function()
       require("zen-mode").setup {}
     end
-  }
+  },
 }
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- https://github.com/LunarVim/LunarVim/pull/2592
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = { "*.ts" },
-  command = "setlocal ts=4 sw=4",
-})
 
 -- Confioguration for Sonokai Theme
 vim.cmd([[
-    let g:sonokai_style = 'atlantis'
-    let g:sonokai_enable_italic = 1
-    let g:sonokai_disable_italic_comment = 0
-
     nmap s <Plug>(easymotion-s2)
     nmap t <Plug>(easymotion-t2)
 
@@ -178,7 +176,19 @@ vim.cmd([[
 
     let g:enable_spelunker_vim = 0
     let g:user_emmet_leader_key='<C-Z>'
+    
+    let g:coverage_json_report_path = 'coverage/coverage-final.json'
+    let g:coverage_interval = 5000
+    let g:coverage_enabled = 1
+    let g:coverage_show_uncovered = 1
+    let g:coverage_sign_uncovered = '🐞'
 ]])
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.relativenumber = true
+
+require('onedark').setup {
+  style = 'warm'
+}
+require('onedark').load()
+lvim.colorscheme = "onedark"
